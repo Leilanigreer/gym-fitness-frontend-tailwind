@@ -9,35 +9,46 @@ export function useRoutineForm() {
     sets: {},
   });
 
-  const handleAddExercise = async (event, exerciseId) => {
+  const handleAddExercise = async (event, formData) => {
     event.preventDefault();
+    
+    console.log('handleAddExercise - received:', formData);
+
+    const { exerciseId, day, sets, reps } = formData;
 
     const params = {
       exercise_id: exerciseId,
-      day: formData.day[exerciseId],
-      sets: formData.sets[exerciseId],
-      reps: formData.reps[exerciseId],
+      day,
+      sets: parseInt(sets, 10),
+      reps: parseInt(reps, 10),
     };
 
+    console.log('handleAddExercise - sending params:', params);
+
     try {
-      await apiClient.post("/routines.json", params);
+      const response = await apiClient.post("/routines.json", params);
       
       setFormData(prev => ({
         reps: { ...prev.reps, [exerciseId]: "" },
         day: { ...prev.day, [exerciseId]: "" },
         sets: { ...prev.sets, [exerciseId]: "" },
       }));
+
+      return response.data;
     } catch (error) {
       console.error("Error adding exercise:", error);
+      throw error;
     }
   };
 
   const handleFieldChange = (field, exerciseId, value) => {
+    console.log('handleFieldChange:', { field, exerciseId, value });
     setFormData(prev => ({
       ...prev,
       [field]: { ...prev[field], [exerciseId]: value },
     }));
   };
+
 
   const handleUpdateRoutine = async (event, routineId, onSuccess) => {
     event.preventDefault();

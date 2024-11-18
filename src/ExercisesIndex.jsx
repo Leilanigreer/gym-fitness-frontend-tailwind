@@ -10,7 +10,7 @@ export function ExercisesIndex() {
   const [selectedExercise, setSelectedExercise] = useState('');
   const revalidator = useRevalidator();
   const exercises = useLoaderData();
-  const ITEMS_PER_PAGE = 20;
+  const ITEMS_PER_PAGE = 12;
 
   const [activeFilters, setActiveFilters] = useState({
     level: '',
@@ -116,9 +116,15 @@ export function ExercisesIndex() {
     setSelectedExercise('');
   };
 
-  const handleRoutineSubmit = async (event, exerciseId) => {
-    await handleAddExercise(event, exerciseId);
-    revalidator.revalidate();
+  const handleRoutineSubmit = async (event, formData) => {
+    try {
+      await handleAddExercise(event, formData);
+      revalidator.revalidate();
+      return true;
+    } catch (error) {
+      console.error('Error submitting routine:', error);
+      return false;
+    }
   };
 
   const handleFilterChange = (filterType, value) => {
@@ -173,181 +179,209 @@ export function ExercisesIndex() {
   };
 
   return (
-    <div className="container-fluid bg-light min-vh-100">
-      <div className="row justify-content-center">
-        <div className="col-lg-10 col-md-11 col-sm-12 py-4">
-          <h1 className="display-4 mb-4 fw-bold text-purple text-center">
-            Are you ready to get in shape? Here we go!
-          </h1>
+    <div className="w-full">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">
+          Are you ready to get in shape? 
+          <br></br>
+          Here we go!
+        </h1>
 
-            <div className="card mb-4">
-            <div className="card-body">
-              <div className="row g-3">
-                <div className="col-md-3">
-                  <select 
-                    className="form-select" 
-                    value={pendingFilters.level}
-                    onChange={(e) => handleFilterChange('level', e.target.value)}
-                    aria-label="Exercise level"
-                  >
-                    <option value="">Exercise Level</option>
-                    {uniqueValues.level.map(level => (
-                      <option key={level.value} value={level.value}>
-                        {level.display}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div className="col-md-3">
-                  <select 
-                    className="form-select"
-                    value={pendingFilters.category}
-                    onChange={(e) => handleFilterChange('category', e.target.value)}
-                    aria-label="Exercise Category"
-                  >
-                    <option value="">Category</option>
-                    {uniqueValues.category.map(category => (
-                      <option key={category.value} value={category.value}>
-                        {category.display}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div className="col-md-3">
-                  <select 
-                    className="form-select"
-                    value={pendingFilters.equipment}
-                    onChange={(e) => handleFilterChange('equipment', e.target.value)}
-                    aria-label="Exercise Equipment"
-                  >
-                    <option value="">Equipment</option>
-                    {uniqueValues.equipment.map(equipment => (
-                      <option key={equipment.value} value={equipment.value}>
-                        {equipment.display}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="col-md-3">
-                  <select 
-                    className="form-select"
-                    value={pendingFilters.primary_muscles}
-                    onChange={(e) => handleFilterChange('primary_muscles', e.target.value)}
-                    aria-label="Primary Muscles"
-                  >
-                    <option value="">Primary Muscles</option>
-                    {uniqueValues.primary_muscles.map(primary_muscles => (
-                      <option key={primary_muscles.value} value={primary_muscles.value}>
-                        {primary_muscles.display}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="row mt-3">
-                <div className="col-12 d-flex justify-content-end gap-2">
-                  <button 
-                    className="btn btn-secondary"
-                    onClick={handleResetFilters}
-                    disabled={!Object.values(activeFilters).some(filter => filter !== '')}
-                  >
-                    Reset Filters
-                  </button>
-                  <button 
-                    className="btn btn-primary"
-                    onClick={handleApplyFilters}
-                    disabled={!hasFilterChanges}
-                  >
-                    Apply Filters
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-4 text-center">
-            <p className="text-muted">
-              Showing {Math.min(ITEMS_PER_PAGE, filteredExercises.length)} of {filteredExercises.length} exercises
-              {Object.values(activeFilters).some(filter => filter !== '') && " (filtered)"}
-            </p>
-          </div>
-
-          <div className="row g-4">
-          {currentExercises.map((exercise) => (
-            <div key={exercise.id} className="col-sm-6 col-md-4 col-lg-3">
-              <ExerciseCard
-                exercise={exercise}
-                isAuthenticated={isAuthenticated()}
-                onRoutineSubmit={handleRoutineSubmit}
-                onFieldChange={handleFieldChange}
-                formData={formData}
-                onLearnMore={handleLearnMoreClick}
-              />
-            </div>
-          ))}
-          </div>
-
-        {totalPages > 1 && (
-            <nav className="mt-4" aria-label="Exercise pagination">
-              <ul className="pagination justify-content-center">
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(1)}
-                    disabled={currentPage === 1}
-                  >
-                    ««
-                  </button>
-                </li>
-                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    «
-                  </button>
-                </li>
-                {getPageNumbers().map(pageNum => (
-                  <li
-                    key={pageNum}
-                    className={`page-item ${pageNum === currentPage ? 'active' : ''}`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => handlePageChange(pageNum)}
-                    >
-                      {pageNum}
-                    </button>
-                  </li>
+        {/* Filters Card */}
+        <div className="bg-white rounded-lg shadow-md mb-6">
+          <div className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {/* Exercise Level Select */}
+              <select 
+                className="w-full h-12 px-4 rounded-md border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 
+                          transition-colors bg-white"
+                value={pendingFilters.level}
+                onChange={(e) => handleFilterChange('level', e.target.value)}
+              >
+                <option value="">Exercise Level</option>
+                {uniqueValues.level.map(level => (
+                  <option key={level.value} value={level.value}>
+                    {level.display}
+                  </option>
                 ))}
-                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    »
-                  </button>
-                </li>
-                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(totalPages)}
-                    disabled={currentPage === totalPages}
-                  >
-                    »»
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
+              </select>
+
+              {/* Category Select */}
+              <select 
+                className="w-full h-12 px-4 rounded-md border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 
+                          transition-colors bg-white"
+                value={pendingFilters.category}
+                onChange={(e) => handleFilterChange('category', e.target.value)}
+              >
+                <option value="">Category</option>
+                {uniqueValues.category.map(category => (
+                  <option key={category.value} value={category.value}>
+                    {category.display}
+                  </option>
+                ))}
+              </select>
+
+              {/* Equipment Select */}
+              <select 
+                className="w-full h-12 px-4 rounded-md border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 
+                          transition-colors bg-white"
+                value={pendingFilters.equipment}
+                onChange={(e) => handleFilterChange('equipment', e.target.value)}
+              >
+                <option value="">Equipment</option>
+                {uniqueValues.equipment.map(equipment => (
+                  <option key={equipment.value} value={equipment.value}>
+                    {equipment.display}
+                  </option>
+                ))}
+              </select>
+
+              {/* Primary Muscles Select */}
+              <select 
+                className="w-full h-12 px-4 rounded-md border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 
+                          transition-colors bg-white"
+                value={pendingFilters.primary_muscles}
+                onChange={(e) => handleFilterChange('primary_muscles', e.target.value)}
+              >
+                <option value="">Primary Muscles</option>
+                {uniqueValues.primary_muscles.map(primary_muscles => (
+                  <option key={primary_muscles.value} value={primary_muscles.value}>
+                    {primary_muscles.display}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Filter Buttons */}
+            <div className="flex justify-end gap-3 mt-6">
+              <button 
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors
+                          ${Object.values(activeFilters).some(filter => filter !== '')
+                            ? 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+                onClick={handleResetFilters}
+                disabled={!Object.values(activeFilters).some(filter => filter !== '')}
+              >
+                Reset Filters
+              </button>
+              <button 
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors
+                          ${hasFilterChanges
+                            ? 'bg-primary hover:bg-primary/90 text-white'
+                            : 'bg-primary/50 text-white/90 cursor-not-allowed'}`}
+                onClick={handleApplyFilters}
+                disabled={!hasFilterChanges}
+              >
+                Apply Filters
+              </button>
+            </div>
+          </div>
         </div>
+
+        {/* Results Count */}
+        <div className="text-center mb-8">
+          <p className="text-gray-600">
+            Showing {Math.min(ITEMS_PER_PAGE, filteredExercises.length)} of {filteredExercises.length} exercises
+            {Object.values(activeFilters).some(filter => filter !== '') && " (filtered)"}
+          </p>
+        </div>
+
+        {/* Exercise Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-fr">
+          {currentExercises.map((exercise) => (
+            <ExerciseCard
+              key={exercise.id}
+              exercise={exercise}
+              isAuthenticated={isAuthenticated()}
+              onRoutineSubmit={handleRoutineSubmit}
+              onFieldChange={handleFieldChange}
+              formData={formData}
+              onLearnMore={handleLearnMoreClick}
+            />
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <nav className="mt-8" aria-label="Exercise pagination">
+            <ul className="flex justify-center items-center gap-2">
+              {/* First Page */}
+              <li>
+                <button
+                  onClick={() => handlePageChange(1)}
+                  disabled={currentPage === 1}
+                  className={`w-10 h-10 flex items-center justify-center rounded-md transition-colors
+                            ${currentPage === 1
+                              ? 'text-gray-400 bg-gray-100 cursor-not-allowed'
+                              : 'text-gray-700 bg-white hover:bg-gray-100 border border-gray-200'}`}
+                >
+                  ««
+                </button>
+              </li>
+
+              {/* Previous Page */}
+              <li>
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`w-10 h-10 flex items-center justify-center rounded-md transition-colors
+                            ${currentPage === 1
+                              ? 'text-gray-400 bg-gray-100 cursor-not-allowed'
+                              : 'text-gray-700 bg-white hover:bg-gray-100 border border-gray-200'}`}
+                >
+                  «
+                </button>
+              </li>
+
+              {/* Page Numbers */}
+              {getPageNumbers().map(pageNum => (
+                <li key={pageNum}>
+                  <button
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`w-10 h-10 flex items-center justify-center rounded-md transition-colors
+                              ${pageNum === currentPage
+                                ? 'bg-primary text-white'
+                                : 'text-gray-700 bg-white hover:bg-gray-100 border border-gray-200'}`}
+                  >
+                    {pageNum}
+                  </button>
+                </li>
+              ))}
+
+              {/* Next Page */}
+              <li>
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`w-10 h-10 flex items-center justify-center rounded-md transition-colors
+                            ${currentPage === totalPages
+                              ? 'text-gray-400 bg-gray-100 cursor-not-allowed'
+                              : 'text-gray-700 bg-white hover:bg-gray-100 border border-gray-200'}`}
+                >
+                  »
+                </button>
+              </li>
+
+              {/* Last Page */}
+              <li>
+                <button
+                  onClick={() => handlePageChange(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className={`w-10 h-10 flex items-center justify-center rounded-md transition-colors
+                            ${currentPage === totalPages
+                              ? 'text-gray-400 bg-gray-100 cursor-not-allowed'
+                              : 'text-gray-700 bg-white hover:bg-gray-100 border border-gray-200'}`}
+                >
+                  »»
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
       </div>
+
+      {/* Modal */}
       <ExerciseModal 
         selectedExercise={selectedExercise} 
         onClose={handleCloseModal} 
