@@ -2,7 +2,7 @@ export function Footer() {
   const logo = 'gis_logo.png'; 
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-[#2D0A31]">
+    <footer className="bg-[#2D0A31] mt-auto">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-2">
           <div>
@@ -25,5 +25,3 @@ export function Footer() {
     </footer>
   );
 }
-
-export default Footer;
