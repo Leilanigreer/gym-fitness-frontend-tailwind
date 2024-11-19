@@ -58,10 +58,10 @@ export function Header() {
   }
 
   return (
-    <header className="shadow-sm sticky top-0 z-50">
-      <nav className="bg-[#2D0A31]">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between h-20">
+    <header className="shadow-sm sticky top-0 z-50 h-16">
+      <nav className="bg-[#2D0A31] h-full">
+        <div className="container mx-auto px-6 h-full">
+          <div className="flex items-center justify-between h-full">
             <Link 
               className="flex items-center" 
               to="/"

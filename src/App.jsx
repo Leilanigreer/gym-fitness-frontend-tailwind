@@ -5,21 +5,20 @@ import { Footer } from "./components/Footer";
 import { ExercisesIndex } from "./ExercisesIndex";
 import { LoginPage } from "./LoginPage";
 import { SignupPage } from "./SignupPage";
-import  RoutinesIndex  from "./RoutinesIndex";
-import  HomePage from "./HomePage";
+import RoutinesIndex from "./RoutinesIndex";
+import HomePage from "./HomePage";
 import { WorkoutLog } from "./WorkoutLog";
+import { Layout } from "./components/PrimaryLayout";
 
 const router = createBrowserRouter([
   {
     element: (
-      <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: '#F1EDE6' }}>
+      <div className="flex flex-col min-h-screen">
         <Header />
-        <main className="flex-grow-1">
-          <div className="container py-4">
-            <div className="bg-white p-4 rounded shadow-sm">
-              <Outlet />
-            </div>
-          </div>
+        <main className="flex-1 bg-background">
+          <Layout>
+            <Outlet />
+          </Layout>
         </main>
         <Footer />
       </div>
@@ -30,7 +29,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/Exercises",
+        path: "/exercises",
         element: <ExercisesIndex />,
         loader: async () => {
           try {
