@@ -6,9 +6,19 @@ import ExerciseModal from './components/ExerciseModal';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 
 const Calendar = ({ selectedDate, onSelect, onClose }) => {
+  const [displayDate, setDisplayDate] = useState(new Date(selectedDate));
   const today = new Date();
-  const currentMonth = selectedDate.getMonth();
-  const currentYear = selectedDate.getFullYear();
+
+  const currentMonth = displayDate.getMonth();
+  const currentYear = displayDate.getFullYear();
+
+  const goToPreviousMonth = () => {
+    setDisplayDate(new Date(currentYear, currentMonth - 1));
+  };
+
+  const goToNextMonth = () => {
+    setDisplayDate(new Date(currentYear, currentMonth + 1));
+  };
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -17,12 +27,10 @@ const Calendar = ({ selectedDate, onSelect, onClose }) => {
   let days = [];
   let day = 1;
 
-  // Add empty cells for days before the first day of the month
   for (let i = 0; i < firstDayOfMonth; i++) {
     days.push(<td key={`empty-${i}`} className="p-2"></td>);
   }
 
-  // Fill in the days of the month
   while (day <= daysInMonth) {
     const date = new Date(currentYear, currentMonth, day);
     const isToday = date.toDateString() === today.toDateString();
@@ -61,7 +69,6 @@ const Calendar = ({ selectedDate, onSelect, onClose }) => {
     day++;
   }
 
-  // Add any remaining days
   if (days.length > 0) {
     weeks.push(<tr key={day}>{days}</tr>);
   }
@@ -69,9 +76,23 @@ const Calendar = ({ selectedDate, onSelect, onClose }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">
-          {selectedDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-        </h3>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={goToPreviousMonth}
+            className="p-1 hover:bg-gray-100 rounded"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <h3 className="text-lg font-semibold">
+            {displayDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          </h3>
+          <button
+            onClick={goToNextMonth}
+            className="p-1 hover:bg-gray-100 rounded"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
         <button
           onClick={onClose}
           className="text-gray-400 hover:text-gray-600"
@@ -233,7 +254,8 @@ export function WorkoutLog() {
 
       {/* Routines List */}
       <div className="space-y-6">
-        {selectedDateData?.routines.map(routine => (
+        {selectedDateData?.routines?.length > 0 ? (
+          selectedDateData?.routines.map(routine => (
           <div key={routine.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
@@ -252,8 +274,9 @@ export function WorkoutLog() {
               />
             </div>
           </div>
-        )) || (
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-md">
+          ))
+        ) : (
+          <div className="bg-orange-background/50 text-burnt-orange/80 px-4 py-3 rounded-md">
             {getNoRoutinesMessage()}
           </div>
         )}

@@ -13,7 +13,6 @@ const RoutinesIndex = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { formData, handleFieldChange, handleUpdateRoutine, initializeFormData } = useRoutineForm();
 
-  // Group routines by day
   const routinesByDay = DAYS_ARRAY.reduce((acc, day) => {
     acc[day] = routines.filter(routine => routine.day === day);
     return acc;

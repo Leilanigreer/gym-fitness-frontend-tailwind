@@ -160,10 +160,10 @@ const ExerciseCard = ({
               Add to Routine
             </button>
           ) : (
-            <div className="flex-1 bg-[#FFEAD9] rounded-md p-3 text-xs text-center"> {/* Reduced padding */}
-              <Link to="/login" className="text-[#BF5600] hover:text-[#822300] text-sm font-medium">Log in</Link>
+            <div className="flex-1 bg-orange-background rounded-md p-3 text-xs text-center"> {/* Reduced padding */}
+              <Link to="/login" className="text-burnt-orange hover:text-[#822300] text-sm font-medium">Log in</Link>
               {" "}or{" "}
-              <Link to="/signup" className="text-[#BF5600] hover:text-[#822300] text-sm font-medium">Sign up</Link>
+              <Link to="/signup" className="text-burnt-orange hover:text-[#822300] text-sm font-medium">Sign up</Link>
               {" "}to add this exercise!
             </div>
           )}
