@@ -2,6 +2,8 @@
 
 A comprehensive workout planning and tracking application that helps you find exercises, create personalized workout routines, and track your fitness progress.
 
+Try it live! 
+
 ## Features
 
 ### Home Dashboard
@@ -98,6 +100,9 @@ Original repository: [yuhonas/free-exercise-db](https://github.com/yuhonas/free-
 4. Schedule your routines by day
 5. Log your completed workouts
 6. Track your progress over time
+
+## Demo
+Visit https://gym-fitness-frontend-tailwind-production.up.railway.app to try out the application.
 
 ## Tags
 #exercise #fitness #workout-tracking #routine-planning #fitness-app
