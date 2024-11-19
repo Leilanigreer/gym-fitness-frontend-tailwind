@@ -12,8 +12,6 @@ export function useRoutineForm() {
   const handleAddExercise = async (event, formData) => {
     event.preventDefault();
     
-    console.log('handleAddExercise - received:', formData);
-
     const { exerciseId, day, sets, reps } = formData;
 
     const params = {
@@ -22,8 +20,6 @@ export function useRoutineForm() {
       sets: parseInt(sets, 10),
       reps: parseInt(reps, 10),
     };
-
-    console.log('handleAddExercise - sending params:', params);
 
     try {
       const response = await apiClient.post("/routines.json", params);
@@ -42,7 +38,6 @@ export function useRoutineForm() {
   };
 
   const handleFieldChange = (field, exerciseId, value) => {
-    console.log('handleFieldChange:', { field, exerciseId, value });
     setFormData(prev => ({
       ...prev,
       [field]: { ...prev[field], [exerciseId]: value },

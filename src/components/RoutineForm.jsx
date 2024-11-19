@@ -13,13 +13,6 @@ export function RoutineForm({ onSubmit, exerciseId, formData = {}, onFieldChange
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    console.log('RoutineForm handleSubmit - current formData:', {
-      exerciseId,
-      day: day[exerciseId],
-      sets: sets[exerciseId],
-      reps: reps[exerciseId]
-    });
-    
     // Validate form data before submission
     if (!day[exerciseId] || !sets[exerciseId] || !reps[exerciseId]) {
       alert('Please fill in all fields');
