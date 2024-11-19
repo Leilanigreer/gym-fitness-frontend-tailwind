@@ -2,7 +2,7 @@
 
 A comprehensive workout planning and tracking application that helps you find exercises, create personalized workout routines, and track your fitness progress.
 
-Try it live! 
+[Try it live!](gym-fitness-frontend-tailwind-production.up.railway.app) 
 
 ## Features
 
