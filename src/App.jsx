@@ -8,7 +8,6 @@ import { SignupPage } from "./SignupPage";
 import RoutinesIndex from "./RoutinesIndex";
 import HomePage from "./HomePage";
 import { WorkoutLog } from "./WorkoutLog";
-import { Layout } from "./components/PrimaryLayout";
 
 const router = createBrowserRouter([
   {
@@ -16,9 +15,9 @@ const router = createBrowserRouter([
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-1 bg-background">
-          <Layout>
+          <div className="container mx-auto px-4 py-4">
             <Outlet />
-          </Layout>
+          </div>
         </main>
         <Footer />
       </div>

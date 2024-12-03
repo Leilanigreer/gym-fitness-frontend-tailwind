@@ -1,5 +1,5 @@
 export function Footer() {
-  const logo = 'gis_logo.png'; 
+  const logo = 'gis_beige487.png'; 
 
   return (
     <footer className="bg-[#2D0A31] mt-auto">
@@ -14,7 +14,7 @@ export function Footer() {
             <img 
               src={logo} 
               alt="GIS Logo" 
-              className="w-5 h-6 rounded"
+              className="h-4 w-auto object-contain"
             />
             <span className="text-white text-sm">
               Get In Shape

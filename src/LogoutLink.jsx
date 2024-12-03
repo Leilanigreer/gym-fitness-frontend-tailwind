@@ -11,11 +11,11 @@ export function LogoutLink({ className }) {
 
   return (
     <Link 
-      className={`relative group ${className}`}
+      className={`relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200 ${className}`}
       to="/" 
       onClick={handleClick}
     >
-      <span className="text-white/90 group-hover:text-white transition-colors duration-200">Logout</span>
+      Logout
       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-200"></span>
     </Link> 
   );

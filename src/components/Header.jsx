@@ -5,31 +5,33 @@ import { useState } from "react";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const logo = 'gis_logo.png';
+  const logo = 'gis_beige487.png';
   let authenticationLinks;
   let routineLinks;
 
   if (!isAuthenticated()) {
     authenticationLinks = (
-      <li className="flex items-center space-x-2">
+      <li className="flex items-center space-x-4">
         <Link 
-          className="px-4 py-2 text-white border border-white/80 rounded-md hover:bg-white/10 transition-all duration-200" 
+          className="relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200" 
           to="/Signup"
         >
           Signup
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-200"></span>
         </Link>
         <Link 
-          className="px-4 py-2 text-[#2D0A31] bg-white rounded-md hover:bg-white/90 transition-all duration-200" 
+          className="relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200" 
           to="/Login"
         >
           Login
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-200"></span>
         </Link>
       </li>
     );
   } else {
     authenticationLinks = (
       <li className="flex items-center">
-        <LogoutLink className="px-3 py-2" />
+        <LogoutLink />
       </li>
     );
 
@@ -37,7 +39,7 @@ export function Header() {
       <>
         <li>
           <Link 
-            className="relative px-3 py-2 text-white/90 hover:text-white group transition-colors duration-200" 
+            className="relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200" 
             to="/routines"
           >
             My Routines
@@ -46,7 +48,7 @@ export function Header() {
         </li>
         <li>
           <Link 
-            className="relative px-3 py-2 text-white/90 hover:text-white group transition-colors duration-200" 
+            className="relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200" 
             to="/workout_log"
           >
             Today&apos;s Routines
@@ -58,7 +60,7 @@ export function Header() {
   }
 
   return (
-    <header className="shadow-sm sticky top-0 z-50 h-16">
+    <header className="shadow-sm sticky top-0 z-50 h-12">
       <nav className="bg-[#2D0A31] h-full">
         <div className="container mx-auto px-6 h-full">
           <div className="flex items-center justify-between h-full">
@@ -68,10 +70,10 @@ export function Header() {
             >
               <img 
                 src={logo} 
-                alt="Logo" 
-                className="w-12 h-12 rounded"
+                alt="Logo"
+                className="h-6 w-auto object-contain" 
               />
-              <span className="ml-2 text-2xl font-bold text-white">G.I.S</span>
+              <span className="ml-2 text-lg font-bold text-white">G.I.S</span>
             </Link>
             
             {/* Mobile menu button */}
@@ -82,7 +84,7 @@ export function Header() {
                 aria-label="Toggle navigation"
               >
                 <svg 
-                  className="h-6 w-6" 
+                  className="h-5 w-5" 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"
@@ -98,11 +100,11 @@ export function Header() {
             </div>
 
             {/* Desktop menu */}
-            <div className="hidden md:flex md:items-center md:justify-between md:flex-1 ml-8">
-              <ul className="flex items-center space-x-6">
+            <div className="hidden md:flex md:items-center md:justify-between md:flex-1 ml-6">
+              <ul className="flex items-center space-x-4">
                 <li>
                   <Link 
-                    className="relative px-3 py-2 text-white/90 hover:text-white group transition-colors duration-200" 
+                    className="relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200"
                     aria-current="page" 
                     to="/"
                   >
@@ -112,7 +114,7 @@ export function Header() {
                 </li>
                 <li>
                   <Link 
-                    className="relative px-3 py-2 text-white/90 hover:text-white group transition-colors duration-200" 
+                    className="relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200"
                     to="/Exercises"
                   >
                     Exercises
@@ -132,7 +134,7 @@ export function Header() {
             <ul className="px-2 pt-2 pb-3 space-y-3">
               <li>
                 <Link 
-                  className="block px-3 py-2 text-white hover:bg-white/10 rounded-md transition-colors duration-200" 
+                  className="block px-2 py-1 text-sm text-white hover:bg-white/10 rounded-md transition-colors duration-200" 
                   aria-current="page" 
                   to="/"
                   onClick={() => setIsOpen(false)}
@@ -142,7 +144,7 @@ export function Header() {
               </li>
               <li>
                 <Link 
-                  className="block px-3 py-2 text-white hover:bg-white/10 rounded-md transition-colors duration-200" 
+                  className="block px-2 py-1 text-sm text-white hover:bg-white/10 rounded-md transition-colors duration-200" 
                   to="/Exercises"
                   onClick={() => setIsOpen(false)}
                 >

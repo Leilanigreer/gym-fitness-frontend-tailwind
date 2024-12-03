@@ -49,10 +49,6 @@ const ExerciseCard = ({
 
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
-      {/* Card Header */}
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900">{exercise.name}</h3>
-      </div>
 
       {/* Image Carousel */}
       {exercise.images?.length > 0 && (
@@ -78,6 +74,7 @@ const ExerciseCard = ({
             })}
           </div>
 
+      
           {/* Navigation Buttons */}
           {exercise.images.length > 1 && (
             <>
@@ -105,6 +102,11 @@ const ExerciseCard = ({
         </div>
       )}
 
+      {/* Card Header */}
+      <div className="px-6 py-4 border-b border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-900">{exercise.name}</h3>
+      </div>
+      
       {/* Card Content */}
       <div className="p-6 space-y-4 flex-1">
         {/* Category and Equipment */}
