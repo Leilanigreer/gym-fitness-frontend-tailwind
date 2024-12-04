@@ -1,5 +1,4 @@
 // tailwind.config.js
-
 export default {
   content: [
     "./index.html",
@@ -8,7 +7,14 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Poppins', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Poppins', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
       },
       colors: {
         'primary': '#5D3E8D',

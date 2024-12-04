@@ -57,7 +57,7 @@ const HomePage = () => {
   }, []);
 
   const WelcomeMessage = ({ currentUser }) => (
-    <h2 className=" text-4xl lg:text-5xl font-extrabold mb-2">
+    <h2 className=" text-4xl lg:text-5xl font-extrabold mb-2 tracking-tight leading-tight">
       {isAuthenticated() 
         ? `Hi ${currentUser?.name}!`
         : "Get In Shape"}
@@ -80,12 +80,12 @@ const HomePage = () => {
         {/* Left side - Content */}
         <div className="flex flex-col space-y-6 order-last md:order-first">
           <WelcomeMessage currentUser={currentUser} />
-          <p className="text-slate-500 text-xl md-text-md">
+          <p className="text-slate-500 text-xl md-text-md leading-relaxed font-normal">
             We are here to help you find the exercises you want and save them to routines 
             so all you have to do is GET IN SHAPE!
           </p>
           {isAuthenticated() && (
-            <p className="text-slate-500 text-xl md-text-md">
+            <p className="text-slate-500 text-xl md-text-md leading-relaxed font-normal">
               What would you like to do today?
             </p>
           )}
