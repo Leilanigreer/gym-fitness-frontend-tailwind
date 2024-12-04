@@ -6,12 +6,12 @@ import { isAuthenticated } from './utils/auth';
 const HomePage = () => {
   const [currentUser, setCurrentUser] = useState({});
   const logo = 'gis_purple487.png';
-  const buttonBaseClass = "w-36 px-3 py-2 rounded-full text-white text-xs font-normal text-center whitespace-nowrap";
+  const buttonBaseClass = "w-full md:w-36 px-3 py-2 rounded-full text-white text-xl md:text-xs font-normal text-center whitespace-nowrap";
   const primaryButtonClass = `${buttonBaseClass} bg-primary`;
   const secondaryButtonClass = `${buttonBaseClass} bg-secondary`;
 
   const ActionButtons = ({ isAuthenticated }) => (
-    <div className="flex gap-4">
+    <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
       {isAuthenticated ? (
         <>
           <Link to="/exercises" className={primaryButtonClass}>
@@ -57,7 +57,7 @@ const HomePage = () => {
   }, []);
 
   const WelcomeMessage = ({ currentUser }) => (
-    <h2 className="text-5xl font-extrabold mb-2">
+    <h2 className=" text-4xl lg:text-5xl font-extrabold mb-2">
       {isAuthenticated() 
         ? `Hi ${currentUser?.name}!`
         : "Get In Shape"}
@@ -65,25 +65,10 @@ const HomePage = () => {
   );
 
   return (
-    <div className="flex items-start justify-center w-full pt-32">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl">
-        {/* Left side - Content */}
-        <div className="flex flex-col space-y-6">
-          <WelcomeMessage currentUser={currentUser} />
-          <p className="text-slate-500 text-md">
-            We are here to help you find the exercises you want and save them to routines 
-            so all you have to do is GET IN SHAPE!
-          </p>
-          {isAuthenticated() && (
-            <p className="text-slate-500 text-md">
-              What would you like to do today?
-            </p>
-          )}
-          <ActionButtons isAuthenticated={isAuthenticated()} />
-        </div>
-  
+    <div className="flex items-start justify-center w-full pt-8 md:pt-20 lg:pt-28">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl px-4 md:px-0">
         {/* Right side - Logo */}
-        <div className="flex items-center justify-center ">
+        <div className="flex items-center justify-center order-first md:order-last">
           <div className="w-3/4 max-w-md"> {/* Container to control logo size */}
             <img 
               src={logo} 
@@ -92,6 +77,21 @@ const HomePage = () => {
             />
           </div>
         </div>
+        {/* Left side - Content */}
+        <div className="flex flex-col space-y-6 order-last md:order-first">
+          <WelcomeMessage currentUser={currentUser} />
+          <p className="text-slate-500 text-xl md-text-md">
+            We are here to help you find the exercises you want and save them to routines 
+            so all you have to do is GET IN SHAPE!
+          </p>
+          {isAuthenticated() && (
+            <p className="text-slate-500 text-xl md-text-md">
+              What would you like to do today?
+            </p>
+          )}
+          <ActionButtons isAuthenticated={isAuthenticated()} />
+        </div>
+  
       </div>
     </div>
   );
