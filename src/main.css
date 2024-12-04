@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.hero-text {
+  @apply max-w-2xl font-normal text-slate-600;
+}
+
+/* Ensure explicit font weights for headings */
+h1, h2, h3 {
+  @apply font-semibold;
+}
