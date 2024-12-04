@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { RoutineForm } from '../components/RoutineForm';
 import { getImageUrl } from '../utils/imageUtils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { getShortDay } from '../constants/days';
 
 const ExerciseCard = ({ 
   exercise, 
@@ -37,13 +38,13 @@ const ExerciseCard = ({
   const getLevelColor = (level) => {
     switch (level.toLowerCase()) {
       case 'beginner':
-        return 'bg-secondary';
+        return 'bg-[#27ae60]';
       case 'intermediate':
-        return 'bg-accent';
+        return 'bg-[#2f80ed]';
       case 'advanced':
-        return 'bg-red-500';
+        return 'bg-[#333333]';
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-600';
     }
   };
 
@@ -94,8 +95,8 @@ const ExerciseCard = ({
           )}
 
           {/* Level Badge */}
-          <div className="absolute left-2.5 top-2.5 z-20">
-            <span className={`px-1.5 py-0.25 rounded-full text-sm font-medium text-white ${getLevelColor(exercise.level)}`}>
+          <div className="absolute left-2.5 top-0.5 z-20">
+            <span className={`px-1.5 py-0.5 rounded-full text-xs font-medium text-white ${getLevelColor(exercise.level)}`}>
               {exercise.capital_level}
             </span>
           </div>
@@ -103,73 +104,106 @@ const ExerciseCard = ({
       )}
 
       {/* Card Header */}
-      <div className="px-6 py-4 border-b border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900">{exercise.name}</h3>
+      <div className="pt-2 px-3 pb-1">
+        <h3 className="text-lg font-semibold text-gray-900 truncate whitespace-nowrap overflow-hidden">
+          {exercise.name}
+        </h3>
       </div>
-      
+
       {/* Card Content */}
-      <div className="p-6 space-y-4 flex-1">
+      <div className="px-4 pt-2 pb-4 flex-1"> 
         {/* Category and Equipment */}
-        <div className="flex flex-wrap gap-2">
-          <span className="px-2 py-0.5 rounded-full text-sm font-medium text-white bg-accent">
+        <div className="flex flex-wrap gap-1.5">
+          <span className="px-2 py-0.5 rounded-full text-xs font-medium text-white bg-gray-600">
             {exercise.capital_category}
           </span>
-          <span className="px-2 py-0.5 rounded-full text-sm font-medium text-white bg-gray-500">
+          <span className="px-2 py-0.5 rounded-full text-xs font-medium text-white bg-gray-600">
             {exercise.capital_equipment}
           </span>
         </div>
 
-        {/* Target Muscles */}
-        <div>
-          <span className="text-sm text-gray-600">Target Muscles:</span>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {exercise.capital_primary_muscles.split(',').map((muscle, index) => (
-              <span key={index} className="px-2 py-0.5 rounded-full text-sm font-medium text-white bg-primary">
-                {muscle.trim()}
-              </span>
-            ))}
-          </div>
-        </div>
+        {/* First Divider */}
+        <div className="border-t border-gray-100 my-4" /> 
 
-        {/* Scheduled Days */}
-        {isAuthenticated && exercise.scheduled_days && Object.keys(exercise.scheduled_days).length > 0 && (
-          <div>
-            <span className="text-sm text-gray-600">Scheduled Days:</span>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {Object.keys(exercise.scheduled_days).map((day) => (
-                <span key={day} className="px-3 py-1 rounded-full text-sm font-medium text-white bg-gray-500">
-                  {day}
+        {/* Target Muscles */}
+        <div className="pb-0.5">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-600 whitespace-nowrap">Target Muscles:</span>
+            <div className="flex flex-wrap gap-1.5 flex-1">
+              {exercise.capital_primary_muscles.split(',').map((muscle, index) => (
+                <span key={index} className="px-2 py-0.5 rounded-full text-xs font-medium text-white bg-gray-600">
+                  {muscle.trim()}
                 </span>
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Second Divider */}
+        <div className="border-t border-gray-100 my-4" /> 
+
+        {/* Scheduled Days */}
+        {isAuthenticated && (
+          <>
+            <div>
+              <span className="text-xs text-gray-600 block mb-2">Scheduled Days:</span>
+              {exercise.scheduled_days && Object.keys(exercise.scheduled_days).length > 0 ? (
+                <div className="flex flex-wrap gap-1.5"> 
+                  {Object.keys(exercise.scheduled_days).map((day) => (
+                    <span key={day} className="px-2 py-1 rounded-full text-xs font-medium text-white bg-gray-600">
+                      {getShortDay(day)}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <span className="px-2 py-1 rounded-full text-xs font-medium text-white bg-gray-600">
+                  None
+                </span>
+              )}
+            </div>
+            {/* Third Divider */}
+            <div className="border-t border-gray-100 my-4" /> 
+          </>
         )}
 
         {/* Action Buttons */}
-        <div className="flex gap-2 pt-2"> {/* Reduced gap and padding-top */}
+        <div className="flex flex-col gap-3">
           <button 
             onClick={() => onLearnMore(exercise)}
-            className="flex-1 px-3 py-1.5 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors text-xs font-medium"
+            className="w-full px-3 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors text-sm font-medium"
           >
             Learn More
           </button>
           
           {isAuthenticated ? (
-            <button 
+            <div 
               onClick={() => setIsRoutineFormOpen(!isRoutineFormOpen)}
-              className="flex-1 px-3 py-1.5 bg-secondary text-white rounded-md hover:bg-secondary/90 transition-colors text-xs font-medium"
+              className="flex items-center gap-2 cursor-pointer justify-center"
             >
-              Add to Routine
-            </button>
+              <svg className="text-primary hover:text-primary/90 transition-colors" width="36" height="36" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="11" fill="currentColor"/>
+                <path d="M12 7v10M7 12h10" stroke="white" strokeWidth="2"/>
+              </svg>
+              <span className="text-gray-800 text-sm font-normal">Add to Routine</span>
+            </div>
           ) : (
-            <div className="flex-1 bg-orange-background rounded-md p-3 text-xs text-center"> {/* Reduced padding */}
-              <Link to="/login" className="text-burnt-orange hover:text-[#822300] text-sm font-medium">Log in</Link>
-              {" "}or{" "}
-              <Link to="/signup" className="text-burnt-orange hover:text-[#822300] text-sm font-medium">Sign up</Link>
-              {" "}to add this exercise!
+            <div className="flex items-start gap-2 justify-center">
+              <svg className="text-primary" width="36" height="36" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="11" fill="currentColor"/>
+                <path d="M12 7v10M7 12h10" stroke="white" strokeWidth="2"/>
+              </svg>
+              <div className="flex flex-col">
+                <span className="text-gray-800 text-sm font-normal">Add to Routine</span>
+                <div className="text-xs">
+                  <Link to="/login" className="text-burnt-orange hover:text-[#822300] text-sm font-medium">Log in</Link>
+                  {" "}or{" "}
+                  <Link to="/signup" className="text-burnt-orange hover:text-[#822300] text-sm font-medium">Sign up</Link>
+                </div>
+              </div>
             </div>
           )}
         </div>
+      </div>
 
         {/* Routine Form */}
         {isAuthenticated && (
@@ -178,7 +212,7 @@ const ExerciseCard = ({
               isRoutineFormOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
             }`}
           >
-            <div className="bg-gray-50 rounded-md p-4 mt-4">
+            <div className="p-4 border-t border-gray-100 my-2">
             <RoutineForm
               exerciseId={exercise.id}
               onSubmit={async (e, formData) => {
@@ -196,7 +230,6 @@ const ExerciseCard = ({
           </div>
         )}
       </div>
-    </div>
   );
 };
 
