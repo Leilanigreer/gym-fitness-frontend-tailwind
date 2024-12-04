@@ -55,7 +55,7 @@ const HomePage = () => {
     if (isAuth) {
       getUserData();
     }
-  }, []);
+  }, [isAuth]);
 
   const WelcomeMessage = ({ currentUser }) => (
     <h2 className=" text-4xl lg:text-5xl font-bold mb-2 tracking-tight leading-tight">
