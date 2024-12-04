@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "NODE_ENV=development vite",
     "build": "NODE_ENV=production vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "NODE_ENV=production vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@fontsource/poppins": "^5.1.0",
