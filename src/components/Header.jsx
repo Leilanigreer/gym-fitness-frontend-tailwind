@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { LogoutLink } from "../LogoutLink";
-import { isAuthenticated } from "../utils/auth";
+import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const logo = 'gis_beige487.png';
+  const isAuth = useAuth();
   let authenticationLinks;
   let routineLinks;
 
-  if (!isAuthenticated()) {
+  if (!isAuth) {
     authenticationLinks = (
       <li className="flex items-center space-x-4">
         <Link 
@@ -121,7 +122,7 @@ export function Header() {
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-200"></span>
                   </Link>
                 </li>
-                {routineLinks}
+                {isAuth && routineLinks}
               </ul>
               <ul className="flex items-center">
                 {authenticationLinks}
@@ -155,7 +156,7 @@ export function Header() {
                   Exercises
                 </Link>
               </li>
-              {isAuthenticated() && (
+              {isAuth && (
                 <>
                   <li>
                     <Link 
@@ -177,7 +178,7 @@ export function Header() {
                   </li>
                 </>
               )}
-              {!isAuthenticated() ? (
+              {!isAuth ? (
                 <>
                   <li>
                     <Link 

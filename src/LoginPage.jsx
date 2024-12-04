@@ -3,6 +3,15 @@ import { Mail, Lock, AlertCircle, Dumbbell } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import apiClient from "./config/axios";
 
+const handleSuccessfulLogin = (jwt) => {
+  // Set JWT in localStorage
+  localStorage.setItem("jwt", jwt);
+  // Set Authorization header
+  apiClient.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+  // Dispatch auth change event
+  window.dispatchEvent(new Event('authChange'));
+};
+
 export function LoginPage() {
   const [errors, setErrors] = useState([]);
   const location = useLocation();
@@ -29,8 +38,7 @@ export function LoginPage() {
     try {
       setIsLoading(true);
       const response = await apiClient.post("/sessions.json", params);
-      localStorage.setItem("jwt", response.data.jwt);
-      apiClient.defaults.headers.common["Authorization"] = `Bearer ${response.data.jwt}`;
+      handleSuccessfulLogin(response.data.jwt);
       event.target.reset();
       navigate('/');
     } catch (error) {
@@ -48,7 +56,7 @@ export function LoginPage() {
   const handleDemoLogin = async () => {
     setErrors([]);
     const credentials = {
-      email: 'demo@example.com',
+      email: 'leilani@test.com',
       password: 'password'
     };
 
@@ -59,8 +67,7 @@ export function LoginPage() {
       formData.set('password', credentials.password);
       
       const response = await apiClient.post("/sessions.json", formData);
-      localStorage.setItem("jwt", response.data.jwt);
-      apiClient.defaults.headers.common["Authorization"] = `Bearer ${response.data.jwt}`;
+      handleSuccessfulLogin(response.data.jwt);
       navigate('/');
     } catch (error) {
       console.error('Demo login error:', error);
@@ -69,7 +76,7 @@ export function LoginPage() {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="min-h-screen flex flex-col  sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

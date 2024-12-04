@@ -1,4 +1,5 @@
 // src/utils/auth.js
 export const isAuthenticated = () => {
-  return localStorage.jwt !== undefined;
+  const token = localStorage.getItem('jwt');
+  return token !== null && token !== '';
 };

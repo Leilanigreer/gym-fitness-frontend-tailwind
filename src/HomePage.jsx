@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import apiClient from './config/axios';
 import { Link } from 'react-router-dom';
-import { isAuthenticated } from './utils/auth';
+import { useAuth } from './hooks/useAuth';
 
 const HomePage = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -9,10 +9,11 @@ const HomePage = () => {
   const buttonBaseClass = "w-full md:w-36 px-3 py-2 rounded-full text-white text-xl md:text-xs font-normal text-center whitespace-nowrap";
   const primaryButtonClass = `${buttonBaseClass} bg-primary`;
   const secondaryButtonClass = `${buttonBaseClass} bg-secondary`;
+  const isAuth = useAuth()
 
-  const ActionButtons = ({ isAuthenticated }) => (
+  const ActionButtons = ({ isAuth }) => (
     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-      {isAuthenticated ? (
+      {isAuth ? (
         <>
           <Link to="/exercises" className={primaryButtonClass}>
             Browse Exercises
@@ -51,14 +52,14 @@ const HomePage = () => {
         });
     };
 
-    if (isAuthenticated()) {
+    if (isAuth) {
       getUserData();
     }
   }, []);
 
   const WelcomeMessage = ({ currentUser }) => (
     <h2 className=" text-4xl lg:text-5xl font-bold mb-2 tracking-tight leading-tight">
-      {isAuthenticated() 
+      {isAuth 
         ? `Hi ${currentUser?.name}!`
         : "Get In Shape"}
     </h2>
@@ -84,12 +85,12 @@ const HomePage = () => {
             We are here to help you find the exercises you want and save them to routines 
             so all you have to do is GET IN SHAPE!
           </p>
-          {isAuthenticated() && (
+          {isAuth && (
             <p className="text-slate-500 text-xl md-text-md leading-relaxed font-normal">
               What would you like to do today?
             </p>
           )}
-          <ActionButtons isAuthenticated={isAuthenticated()} />
+          <ActionButtons isAuth={isAuth} />
         </div>
   
       </div>

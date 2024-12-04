@@ -6,9 +6,15 @@ export function LogoutLink({ className, onClick }) {
 
   const handleClick = (event) => {
     event.preventDefault();
+    
     delete apiClient.defaults.headers.common["Authorization"];
+    
     localStorage.removeItem("jwt");
+    
+    window.dispatchEvent(new Event('authChange'));
+    
     onClick?.(); 
+    
     navigate('/');
   };
 
