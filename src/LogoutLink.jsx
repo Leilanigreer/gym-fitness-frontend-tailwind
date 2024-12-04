@@ -11,7 +11,7 @@ export function LogoutLink({ className }) {
 
   return (
     <Link 
-      className={`relative px-2 py-1 text-sm text-white/90 hover:text-white group transition-colors duration-200 ${className}`}
+      className={`relative px-2 py-1 md:text-sm text-lg text-white/90 hover:text-white group transition-colors duration-200 ${className}`}
       to="/" 
       onClick={handleClick}
     >
