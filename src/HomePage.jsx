@@ -86,7 +86,7 @@ const HomePage = () => {
             so all you have to do is GET IN SHAPE!
           </p>
           {isAuth && (
-            <p className="text-slate-500 text-xl md-text-md leading-relaxed font-normal">
+            <p className="text-slate-500 text-xl md:text-md leading-relaxed font-normal">
               What would you like to do today?
             </p>
           )}

@@ -26,7 +26,7 @@ export function LogoutLink({ className, onClick }) {
       onClick={handleClick}
     >
       Logout
-      <span className="hidden md:block absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-200"></span>
+      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-200"></span>
     </button> 
   );
 }
